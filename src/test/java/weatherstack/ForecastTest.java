@@ -49,9 +49,9 @@ public class ForecastTest {
             JsonNode location = root.get("location");
 
             assertAll(
-                    () -> Assertions.assertEquals(request.path("language").textValue(), s.getLanguage(true), "Предоставлин параметр `language` не соответствует ожидаемого."),
-                    () -> Assertions.assertEquals(request.path("unit").textValue(), s.getUnit(), "Предоставлен параметр `unit` не соответствует ожидаемого."),
-                    () -> Assertions.assertEquals(location.path("name").textValue(), s.getQuery(), "Предоставлен параметр `name` не соответствует ожидаемого.")
+                    () -> Assertions.assertEquals(request.path("language").textValue(), s.getLanguage(true), "Параметр `language` не соответствует ожидаемому."),
+                    () -> Assertions.assertEquals(request.path("unit").textValue(), s.getUnit(), "Параметр `unit` не соответствует ожидаемому."),
+                    () -> Assertions.assertEquals(location.path("name").textValue(), s.getQuery(), "Параметр `name` не соответствует ожидаемому.")
             );
         }
     }
@@ -87,16 +87,16 @@ public class ForecastTest {
                         message = "Ключ доступа для запроса, не Предоставлен.";
                         break;
                     case "invalid_access_key":
-                        message = "Предоставлен ключ доступа некорректный.";
+                        message = "Предоставленный ключ доступа некорректный.";
                         break;
                     case "missing_query":
-                        message = "Предоставлен параметр `query` некорректный.";
+                        message = "Предоставленный параметр `query` некорректный.";
                         break;
                     case "invalid_language":
-                        message = "Предоставлен параметр `language` некорректный.";
+                        message = "Предоставленный параметр `language` некорректный.";
                         break;
                     case "invalid_unit":
-                        message = "Предоставлен параметр `unit` некорректный.";
+                        message = "Предоставленный параметр `unit` некорректный.";
                         break;
                     case "request_failed":
                         message = "Запрос не удался.";
@@ -124,7 +124,7 @@ public class ForecastTest {
         File file = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
         return objectMapper.readValue(file, ForecastErrorSettings[].class);
     }
-    
+
     private String extract(String url) {
         return given().when().get(url).then().assertThat().statusCode(200).extract().body().asString();
     }
