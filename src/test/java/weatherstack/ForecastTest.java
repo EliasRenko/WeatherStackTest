@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import weatherstack.models.ForecastErrorSettings;
 import weatherstack.models.ForecastSettings;
 
 import java.io.File;
@@ -26,12 +27,11 @@ public class ForecastTest {
     public static String url = "http://api.weatherstack.com/current?access_key=%s&query=%s&units=%s&language=%s";
 
     @ParameterizedTest
-    @ValueSource(strings = {"forecastTestSettings1.json"})
+    @ValueSource(strings = {"forecastTestSettings.json"})
     @DisplayName("Позитивный тест")
     public void getForecastTest(String resource) throws IOException {
 
-        File file = getFile(resource);
-        ForecastSettings[] settings = objectMapper.readValue(file, ForecastSettings[].class);
+        ForecastSettings[] settings = getProperties(resource);
 
         for (ForecastSettings s : settings) {
 
@@ -57,14 +57,13 @@ public class ForecastTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"forecastTestSettings2.json"})
+    @ValueSource(strings = {"forecastTestErrorSettings.json"})
     @DisplayName("Негативный тест")
     public void getForecastErrorsTest(String resource) throws IOException {
 
-        File file = getFile(resource);
-        ForecastSettings[] settings = objectMapper.readValue(file, ForecastSettings[].class);
+        ForecastErrorSettings[] settings = getErrorProperties(resource);
 
-        for (ForecastSettings s : settings) {
+        for (ForecastErrorSettings s : settings) {
 
             var fullUrl = String.format(url, s.getAccessKey(), s.getQuery(), s.getUnit(), s.getLanguage(false));
             var result = extract(fullUrl);
@@ -102,11 +101,28 @@ public class ForecastTest {
                     case "request_failed":
                         message = "Запрос не удался.";
                         break;
+                    case "function_access_restricted":
+                        message = "Текущая подписка пользователя не поддерживает эту функцию API.";
+                        break;
                 }
 
-                fail("Ошибка при запросе: " + message + " => " + info);
+                Assertions.assertEquals(type, s.getExpectedError());
+
+                logger.info("Ошибка при запросе найдена: " + message + " => " + info);
             }
         }
+    }
+
+    private ForecastSettings[] getProperties(String fileName) throws IOException {
+
+        File file = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
+        return objectMapper.readValue(file, ForecastSettings[].class);
+    }
+
+    private ForecastErrorSettings[] getErrorProperties(String fileName) throws IOException {
+
+        File file = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
+        return objectMapper.readValue(file, ForecastErrorSettings[].class);
     }
 
     private File getFile(String fileName) {

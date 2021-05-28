@@ -1,0 +1,30 @@
+[
+      {
+            "accessKey":"1234",
+            "query":"Moscow",
+            "unit":"m",
+            "language":"",
+            "expectedError":"invalid_access_key"
+      },
+      {
+            "accessKey":"dfcaa4c9703438aa39b5d36ef15fc9c1",
+            "query":"",
+            "unit":"m",
+            "language":"",
+            "expectedError":"missing_query"
+      },
+      {
+            "accessKey":"dfcaa4c9703438aa39b5d36ef15fc9c1",
+            "query":"New York",
+            "unit":"m",
+            "language":"asd",
+            "expectedError":"function_access_restricted"
+      },
+      {
+            "accessKey":"dfcaa4c9703438aa39b5d36ef15fc9c1",
+            "query":"New York",
+            "unit":"a",
+            "language":"",
+            "expectedError":"invalid_unit"
+      }
+]
