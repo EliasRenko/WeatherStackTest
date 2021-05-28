@@ -124,12 +124,7 @@ public class ForecastTest {
         File file = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
         return objectMapper.readValue(file, ForecastErrorSettings[].class);
     }
-
-    private File getFile(String fileName) {
-
-        return new File(this.getClass().getClassLoader().getResource(fileName).getFile());
-    }
-
+    
     private String extract(String url) {
         return given().when().get(url).then().assertThat().statusCode(200).extract().body().asString();
     }
