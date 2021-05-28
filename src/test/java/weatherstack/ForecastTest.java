@@ -69,8 +69,6 @@ public class ForecastTest {
             var fullUrl = String.format(url, s.getAccessKey(), s.getQuery(), s.getUnit(), s.getLanguage(false));
             var result = extract(fullUrl);
 
-            logger.info(fullUrl);
-
             JsonNode root = objectMapper.readTree(result);
 
             if (root.has("error")) {
