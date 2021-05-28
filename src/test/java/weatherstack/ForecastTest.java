@@ -79,8 +79,6 @@ public class ForecastTest {
 
                 Assertions.fail("Ошибка при запросе: " + message + " => " + info);
 
-                //logger.error("Ошибка при запросе: " + message);
-
                 continue;
             }
 
@@ -88,9 +86,9 @@ public class ForecastTest {
             JsonNode location = root.get("location");
 
             Assertions.assertAll(
-                    () -> Assertions.assertEquals(request.path("language").textValue(), s.getLanguage(true)),
-                    () -> Assertions.assertEquals(request.path("unit").textValue(), s.getUnit()),
-                    () -> Assertions.assertEquals(location.path("name").textValue(), s.getQuery())
+                    () -> Assertions.assertEquals(request.path("language").textValue(), s.getLanguage(true), "Предоставлин параметр `language` не соответствует ожидаемого."),
+                    () -> Assertions.assertEquals(request.path("unit").textValue(), s.getUnit(), "Предоставлин параметр `unit` не соответствует ожидаемого."),
+                    () -> Assertions.assertEquals(location.path("name").textValue(), s.getQuery(), "Предоставлин параметр `name` не соответствует ожидаемого.")
             );
         }
     }
