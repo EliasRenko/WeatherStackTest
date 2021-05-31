@@ -7,3 +7,6 @@
 Запустите функцию `getForecastErrorsTest()` в файле `weatherstack/ForecastTest.java` для получения ошибок из списка API.
 
 Стек используемых технологий: Java, Maven, Slf4j, JUnit5, Jackson, Rest Assured.
+
+## Запуск тестов: 
+В терминале используете `mvn test`.
