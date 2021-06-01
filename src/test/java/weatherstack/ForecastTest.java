@@ -13,7 +13,10 @@ import weatherstack.models.ForecastSettings;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -114,15 +117,13 @@ public class ForecastTest {
     }
 
     private ForecastSettings[] getProperties(String fileName) throws IOException {
-
-        File file = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
-        return objectMapper.readValue(file, ForecastSettings[].class);
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+        return objectMapper.readValue(stream, ForecastSettings[].class);
     }
 
     private ForecastErrorSettings[] getErrorProperties(String fileName) throws IOException {
-
-        File file = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
-        return objectMapper.readValue(file, ForecastErrorSettings[].class);
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+        return objectMapper.readValue(stream, ForecastErrorSettings[].class);
     }
 
     private String extract(String url) {
